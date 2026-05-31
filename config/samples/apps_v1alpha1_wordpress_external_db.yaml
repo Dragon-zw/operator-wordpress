@@ -1,0 +1,36 @@
+# Example CR: WordPress backed by an external (BYO) MySQL.
+# Create the secret first, e.g.:
+#   kubectl create secret generic wordpress-external-db \
+#     --from-literal=password='your-strong-password'
+apiVersion: apps.kubesphere.ai/v1alpha1
+kind: WordPress
+metadata:
+  name: wordpress-external
+spec:
+  image: wordpress:6.5-apache
+  replicas: 2
+  service:
+    type: ClusterIP
+    port: 80
+  persistence:
+    enabled: true
+    size: 10Gi
+  ingress:
+    enabled: true
+    host: wordpress.example.com
+    ingressClassName: nginx
+  database:
+    mode: External
+    name: wp_prod
+    user: wp_user
+    external:
+      host: mysql.dbteam.svc.cluster.local
+      port: 3306
+      passwordSecret:
+        name: wordpress-external-db
+        key: password
+  autoscaling:
+    enabled: true
+    minReplicas: 2
+    maxReplicas: 6
+    targetCPUUtilizationPercentage: 70

@@ -1,0 +1,35 @@
+apiVersion: apps.kubesphere.ai/v1alpha1
+kind: WordPress
+metadata:
+  labels:
+    app.kubernetes.io/name: wordpress-operator
+    app.kubernetes.io/managed-by: kustomize
+  name: wordpress-sample
+spec:
+  image: wordpress:6.5-apache
+  replicas: 1
+  resources:
+    requests:
+      cpu: 200m
+      memory: 256Mi
+    limits:
+      memory: 512Mi
+  service:
+    type: ClusterIP
+    port: 80
+  persistence:
+    enabled: true
+    size: 5Gi
+  database:
+    mode: Internal
+    name: wordpress
+    user: wordpress
+    internal:
+      image: mysql:8.0
+      storageSize: 5Gi
+      resources:
+        requests:
+          cpu: 200m
+          memory: 512Mi
+        limits:
+          memory: 1Gi

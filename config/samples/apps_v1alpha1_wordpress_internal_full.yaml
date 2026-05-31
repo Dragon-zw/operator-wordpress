@@ -1,0 +1,51 @@
+# Example CR: WordPress with operator-managed MySQL, Ingress, HPA, custom resources.
+apiVersion: apps.kubesphere.ai/v1alpha1
+kind: WordPress
+metadata:
+  name: wordpress-full
+spec:
+  image: wordpress:6.5-apache
+  replicas: 2
+  resources:
+    requests:
+      cpu: 200m
+      memory: 256Mi
+    limits:
+      cpu: 1
+      memory: 1Gi
+  siteURL: https://blog.example.com
+  service:
+    type: LoadBalancer
+    port: 80
+  persistence:
+    enabled: true
+    size: 20Gi
+    accessModes:
+      - ReadWriteOnce
+  ingress:
+    enabled: true
+    host: blog.example.com
+    ingressClassName: nginx
+    tlsSecretName: blog-tls
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+  autoscaling:
+    enabled: true
+    minReplicas: 2
+    maxReplicas: 8
+    targetCPUUtilizationPercentage: 75
+  database:
+    mode: Internal
+    name: wordpress
+    user: wordpress
+    tablePrefix: wp_
+    internal:
+      image: mysql:8.0
+      storageSize: 20Gi
+      resources:
+        requests:
+          cpu: 250m
+          memory: 512Mi
+        limits:
+          cpu: 1
+          memory: 2Gi
