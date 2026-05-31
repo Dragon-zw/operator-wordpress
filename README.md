@@ -42,7 +42,7 @@ minikube-m03   Ready    <none>          2m15s   v1.34.0   192.168.49.4   <none> 
 
 ## 目录结构
 
-```
+```sh
 
 api/v1alpha1/wordpress_types.go        # CRD 类型定义（含 +kubebuilder marker）
 internal/controller/
