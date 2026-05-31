@@ -21,7 +21,8 @@
 NAME           STATUS   ROLES           AGE     VERSION   INTERNAL-IP    EXTERNAL-IP   OS-IMAGE                         KERNEL-VERSION     CONTAINER-RUNTIME
 minikube       Ready    control-plane   2m32s   v1.34.0   192.168.49.2   <none>        Debian GNU/Linux 12 (bookworm)   6.12.67-linuxkit   containerd://2.2.1
 minikube-m02   Ready    <none>          2m21s   v1.34.0   192.168.49.3   <none>        Debian GNU/Linux 12 (bookworm)   6.12.67-linuxkit   containerd://2.2.1
-minikube-m03   Ready    <none>          2m15s   v1.34.0   192.168.49.4   <none>        Debian GNU/Linux 12 (bookworm)   6.12.67-linuxkit   containerd://2.2.1```
+minikube-m03   Ready    <none>          2m15s   v1.34.0   192.168.49.4   <none>        Debian GNU/Linux 12 (bookworm)   6.12.67-linuxkit   containerd://2.2.1
+```
 
 一个基于 [kubebuilder v4](https://book.kubebuilder.io/) + [controller-runtime](https://github.com/kubernetes-sigs/controller-runtime) 编写的 Kubernetes Operator，
 用单个 `WordPress` 自定义资源声明式管理 WordPress 网站，覆盖**内置 MySQL** 与**外置数据库**两类常见生产场景。
@@ -43,7 +44,6 @@ minikube-m03   Ready    <none>          2m15s   v1.34.0   192.168.49.4   <none> 
 ## 目录结构
 
 ```sh
-
 api/v1alpha1/wordpress_types.go        # CRD 类型定义（含 +kubebuilder marker）
 internal/controller/
   wordpress_controller.go              # 主 Reconcile 流程
@@ -57,7 +57,6 @@ config/crd/bases/                      # 生成的 CRD
 config/rbac/                           # 生成的 RBAC（含三个 wordpress-{admin,editor,viewer}-role）
 config/samples/                        # 三份示例 CR
 cmd/main.go                            # Manager 入口
-
 ```
 
 ## 快速开始
